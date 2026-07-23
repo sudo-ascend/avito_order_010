@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ brand_name }} | Персональные подарки</title>
+    <meta name="description" content="Персональные подарки, альбомы и творческие наборы {{ brand_name }}. Визуальный этап главной страницы на локальных данных и изображениях.">
+    <link rel="icon" type="image/webp" href="{% static 'catalog/assets/images/logo-circle.webp' %}">
+    <link rel="stylesheet" href="{% static 'catalog/assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'catalog/index.css' %}">
+</head>
+<body class="catalog-page">
+<div class="page-shell">
+    <header class="site-header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg main-nav">
+                <a class="brand-mark" href="#top">
+                    <img src="{% static 'catalog/assets/images/logo-circle.webp' %}" alt="Логотип {{ brand_name }}">
+                    <span class="brand-copy">
+                        <strong>{{ brand_name }}</strong>
+                        <small>Создаем моменты счастья</small>
+                    </span>
+                </a>
+                <button class="navbar-toggler menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#siteMenu" aria-controls="siteMenu" aria-expanded="false" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="collapse navbar-collapse" id="siteMenu">
+                    <ul class="navbar-nav nav-links mx-auto">
+                        <li class="nav-item"><a class="nav-link" href="#top">Главная</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">О нас</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#catalog">Каталог</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#how">Как заказать</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#works">Отзывы</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
+                    </ul>
+                    <div class="nav-side">
+                        <div class="social-links social-links-header">
+                            <a href="#contact" aria-label="Instagram">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="3.5"></circle><circle cx="17.4" cy="6.6" r="1"></circle></svg>
+                            </a>
+                            <a href="#contact" aria-label="Telegram">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3.8 10.6c-.8.3-.8 1.5.1 1.8l4.4 1.4 1.7 5c.2.7 1.2.8 1.6.2l2.6-3.6 4.5 3.3c.6.5 1.6.1 1.8-.7L22 5.4A1.1 1.1 0 0 0 21 4Z"></path></svg>
+                            </a>
+                            <a href="#contact" aria-label="WhatsApp">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.2A8.5 8.5 0 1 0 12 3.5Zm4.5 11c-.2.7-1.3 1.3-1.8 1.4-.5.1-1.1.2-3.5-.8-2.9-1.2-4.8-4.3-5-4.6-.2-.3-1.2-1.6-1.2-3s.7-2.2.9-2.5c.2-.3.6-.4.8-.4h.6c.2 0 .5 0 .7.5.3.7 1 2.3 1 2.5.1.2.1.5 0 .7-.1.2-.2.4-.4.6l-.5.6c-.2.2-.3.4-.1.8.2.3.9 1.5 2 2.4 1.3 1.2 2.4 1.6 2.8 1.8.3.1.6.1.8-.1l.9-1.1c.2-.3.5-.3.8-.2l2.3 1.1c.3.1.5.2.6.4.1.2.1 1-.1 1.7Z"></path></svg>
+                            </a>
+                        </div>
+                        <a class="btn order-button" href="#contact">Заказать подарок</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero-section" id="about">
+            <div class="container">
+                <div class="hero-panel">
+                    <div class="hero-copy">
+                        <h1>Подари момент,<br>который останется<br><span>в памяти</span></h1>
+                        <div class="hero-divider"></div>
+                        <p>Создаем персональные раскраски, альбомы и подарки по вашему заказу с любовью к деталям.</p>
+                        <div class="hero-actions">
+                            <a class="btn hero-button-primary" href="#contact">Создать свой подарок</a>
+                            <a class="btn hero-button-secondary" href="#works">
+                                <span class="play-icon" aria-hidden="true"></span>
+                                Смотреть видео
+                            </a>
+                        </div>
+                        <div class="hero-benefits">
+                            <div class="hero-benefit">
+                                <span class="hero-benefit__icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 21-1.7-1.6C5.4 14.8 2 11.7 2 7.9A4.9 4.9 0 0 1 7 3a5.4 5.4 0 0 1 5 2.9A5.4 5.4 0 0 1 17 3a4.9 4.9 0 0 1 5 4.9c0 3.8-3.4 6.9-8.3 11.5L12 21Z"></path></svg>
+                                </span>
+                                <span>Индивидуальный подход</span>
+                            </div>
+                            <div class="hero-benefit">
+                                <span class="hero-benefit__icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 4.2-1 8.6-8.6a2 2 0 0 0-2.8-2.8L6.4 15.2 5 19Z"></path><path d="m13.8 7.8 2.8 2.8"></path></svg>
+                                </span>
+                                <span>Ручная работа с вниманием к деталям</span>
+                            </div>
+                            <div class="hero-benefit">
+                                <span class="hero-benefit__icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v10"></path><path d="m7 12 5 5 5-5"></path><path d="M5 5h14"></path></svg>
+                                </span>
+                                <span>Быстрое изготовление</span>
+                            </div>
+                            <div class="hero-benefit">
+                                <span class="hero-benefit__icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="11" height="10" rx="2"></rect><path d="M14 10h3l3 3v4h-6"></path><circle cx="8" cy="18" r="1.5"></circle><circle cx="17" cy="18" r="1.5"></circle></svg>
+                                </span>
+                                <span>Доставка по миру</span>
+                            </div>
+                            <div class="hero-benefit">
+                                <span class="hero-benefit__icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5 12 4l8 5.5"></path><path d="M6 10v8.5A1.5 1.5 0 0 0 7.5 20h9a1.5 1.5 0 0 0 1.5-1.5V10"></path><path d="M10 20v-5h4v5"></path></svg>
+                                </span>
+                                    <span>Доставка по РФ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-media">
+                        <div class="hero-photo">
+                            <img src="{% static 'catalog/assets/images/custom/hero-watercolor-reference.png' %}" alt="Авторский подарочный альбом {{ brand_name }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gifts-section" id="catalog">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>Наши подарки</h2>
+                </div>
+                <div class="gift-slider-shell">
+                    <button class="slider-arrow slider-arrow-left" type="button" aria-label="Предыдущие подарки">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6-6 6 6 6"></path></svg>
+                    </button>
+                    <div class="gift-grid">
+                        {% for product in gift_cards %}
+                            <article class="gift-card">
+                                <a class="gift-card__link" href="{{ product.card_url|default:'#contact' }}" {% if product.card_url %}target="_blank" rel="noopener"{% endif %}>
+                                    <div class="gift-card__image">
+                                        <img src="{% static product.main_image %}" alt="{{ product.title }}">
+                                    </div>
+                                    <div class="gift-card__body">
+                                        <h3>{{ product.category }}</h3>
+                                        <p>{{ product.description }}</p>
+                                    </div>
+                                </a>
+                            </article>
+                        {% endfor %}
+                    </div>
+                    <button class="slider-arrow slider-arrow-right" type="button" aria-label="Следующие подарки">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6"></path></svg>
+                    </button>
+                </div>
+                <div class="gift-dots" aria-hidden="true">
+                    <span class="is-active"></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section" id="how">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>Как мы работаем</h2>
+                </div>
+                <div class="process-grid">
+                    <article class="process-card">
+                        <div class="process-card__icon">
+                            <img src="{% static 'catalog/assets/images/custom/step-idea.png' %}" alt="" aria-hidden="true">
+                        </div>
+                        <h3>1. Вы рассказываете идею</h3>
+                        <p>Пишите нам о том, какой подарок вы хотите подарить.</p>
+                    </article>
+                    <article class="process-card">
+                        <div class="process-card__icon">
+                            <img src="{% static 'catalog/assets/images/custom/step-design.png' %}" alt="" aria-hidden="true">
+                        </div>
+                        <h3>2. Мы создаем дизайн</h3>
+                        <p>Разрабатываем уникальный макет и согласовываем его с вами.</p>
+                    </article>
+                    <article class="process-card">
+                        <div class="process-card__icon">
+                            <img src="{% static 'catalog/assets/images/custom/step-gift.png' %}" alt="" aria-hidden="true">
+                        </div>
+                        <h3>3. Изготавливаем подарок</h3>
+                        <p>Создаем ваш заказ с любовью и вниманием к деталям.</p>
+                    </article>
+                    <article class="process-card process-card-last">
+                        <div class="process-card__icon">
+                            <img src="{% static 'catalog/assets/images/custom/step-happiness.png' %}" alt="" aria-hidden="true">
+                        </div>
+                        <h3>4. Вы получаете момент счастья</h3>
+                        <p>Получаете готовый подарок, который дарит эмоции.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="works-section" id="works">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>Наши работы</h2>
+                </div>
+                <div class="works-grid">
+                    {% for image in gallery_images %}
+                        <figure class="work-card">
+                            <img src="{% static image.src %}" alt="{{ image.alt }}">
+                        </figure>
+                    {% endfor %}
+                </div>
+                <div class="works-action">
+                    <a class="btn works-button" href="#contact">Смотреть больше работ</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <div class="contact-panel">
+                    <div class="contact-intro">
+                        <h2>Создадим подарок специально для вас</h2>
+                        <p>Оставьте заявку, и мы свяжемся с вами, чтобы обсудить все детали.</p>
+                        <div class="contact-intro__icon">
+                            <img src="{% static 'catalog/assets/images/custom/step-gift.png' %}" alt="" aria-hidden="true">
+                        </div>
+                    </div>
+                    <form class="contact-form" action="#" method="post">
+                        <div class="contact-form__grid">
+                            <label class="field">
+                                <input type="text" name="name" placeholder="Ваше имя">
+                            </label>
+                            <label class="field">
+                                <input type="tel" name="phone" placeholder="Телефон">
+                            </label>
+                            <label class="field">
+                                <input type="email" name="email" placeholder="Email">
+                            </label>
+                            <label class="field">
+                                <select name="gift_type">
+                                    <option selected>Что хотите заказать?</option>
+                                    <option>Раскраску</option>
+                                    <option>Альбом</option>
+                                    <option>Творческий набор</option>
+                                    <option>Индивидуальный проект</option>
+                                </select>
+                            </label>
+                            <label class="field field-wide">
+                                <textarea name="idea" rows="3" placeholder="Расскажите вашу идею"></textarea>
+                            </label>
+                        </div>
+                        <button class="btn submit-button" type="submit">Отправить заявку</button>
+                        <p class="form-note">Нажимая на кнопку, вы соглашаетесь с <a href="#contact">политикой конфиденциальности</a></p>
+                    </form>
+                    <div class="contact-links">
+                        <a class="contact-link" href="#contact">
+                            <span class="contact-link__icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.2A8.5 8.5 0 1 0 12 3.5Zm4.5 11c-.2.7-1.3 1.3-1.8 1.4-.5.1-1.1.2-3.5-.8-2.9-1.2-4.8-4.3-5-4.6-.2-.3-1.2-1.6-1.2-3s.7-2.2.9-2.5c.2-.3.6-.4.8-.4h.6c.2 0 .5 0 .7.5.3.7 1 2.3 1 2.5.1.2.1.5 0 .7-.1.2-.2.4-.4.6l-.5.6c-.2.2-.3.4-.1.8.2.3.9 1.5 2 2.4 1.3 1.2 2.4 1.6 2.8 1.8.3.1.6.1.8-.1l.9-1.1c.2-.3.5-.3.8-.2l2.3 1.1c.3.1.5.2.6.4.1.2.1 1-.1 1.7Z"></path></svg>
+                            </span>
+                            <span>WhatsApp</span>
+                        </a>
+                        <a class="contact-link" href="#contact">
+                            <span class="contact-link__icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3.8 10.6c-.8.3-.8 1.5.1 1.8l4.4 1.4 1.7 5c.2.7 1.2.8 1.6.2l2.6-3.6 4.5 3.3c.6.5 1.6.1 1.8-.7L22 5.4A1.1 1.1 0 0 0 21 4Z"></path></svg>
+                            </span>
+                            <span>Telegram</span>
+                        </a>
+                        <a class="contact-link" href="#contact">
+                            <span class="contact-link__icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="3.5"></circle><circle cx="17.4" cy="6.6" r="1"></circle></svg>
+                            </span>
+                            <span>Instagram</span>
+                        </a>
+                        <a class="contact-link" href="mailto:info@podarimoment.ru">
+                            <span class="contact-link__icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="m5 8 7 5 7-5"></path></svg>
+                            </span>
+                            <span>Email</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a class="brand-mark footer-brand-mark" href="#top">
+                        <img src="{% static 'catalog/assets/images/logo-circle.webp' %}" alt="Логотип {{ brand_name }}">
+                        <span class="brand-copy">
+                            <strong>{{ brand_name }}</strong>
+                            <small>Создаем моменты счастья</small>
+                        </span>
+                    </a>
+                    <p>Создаем персональные подарки, которые сохраняют важные моменты и дарят радость.</p>
+                    <div class="social-links social-links-footer">
+                        <a href="#contact" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="3.5"></circle><circle cx="17.4" cy="6.6" r="1"></circle></svg>
+                        </a>
+                        <a href="#contact" aria-label="Telegram">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3.8 10.6c-.8.3-.8 1.5.1 1.8l4.4 1.4 1.7 5c.2.7 1.2.8 1.6.2l2.6-3.6 4.5 3.3c.6.5 1.6.1 1.8-.7L22 5.4A1.1 1.1 0 0 0 21 4Z"></path></svg>
+                        </a>
+                        <a href="#contact" aria-label="WhatsApp">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.2A8.5 8.5 0 1 0 12 3.5Zm4.5 11c-.2.7-1.3 1.3-1.8 1.4-.5.1-1.1.2-3.5-.8-2.9-1.2-4.8-4.3-5-4.6-.2-.3-1.2-1.6-1.2-3s.7-2.2.9-2.5c.2-.3.6-.4.8-.4h.6c.2 0 .5 0 .7.5.3.7 1 2.3 1 2.5.1.2.1.5 0 .7-.1.2-.2.4-.4.6l-.5.6c-.2.2-.3.4-.1.8.2.3.9 1.5 2 2.4 1.3 1.2 2.4 1.6 2.8 1.8.3.1.6.1.8-.1l.9-1.1c.2-.3.5-.3.8-.2l2.3 1.1c.3.1.5.2.6.4.1.2.1 1-.1 1.7Z"></path></svg>
+                        </a>
+                    </div>
+                    <span class="footer-copy">© {{ current_year }} {{ brand_name }}. Все права защищены.</span>
+                </div>
+                <div class="footer-column">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#top">Главная</a></li>
+                        <li><a href="#about">О нас</a></li>
+                        <li><a href="#catalog">Каталог</a></li>
+                        <li><a href="#how">Как заказать</a></li>
+                        <li><a href="#works">Отзывы</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Каталог</h3>
+                    <ul>
+                        {% for category in footer_categories %}
+                            <li><a href="#catalog">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul class="footer-contact-list">
+                        <li>+7 (999) 123-45-67</li>
+                        <li><a href="mailto:info@podarimoment.ru">info@podarimoment.ru</a></li>
+                        <li>Россия, Москва</li>
+                        <li>Ежедневно 10:00 - 20:00</li>
+                        {% if fetched_at_display %}<li>Данные обновлены {{ fetched_at_display }}</li>{% endif %}
+                    </ul>
+                </div>
+                <div class="footer-promo">
+                    <svg class="footer-hearts" viewBox="0 0 120 60" aria-hidden="true">
+                        <path d="m27 45-3.8-3.6C12.4 31.3 5 24.6 5 16.2A11.1 11.1 0 0 1 16.2 5C22 5 27 8.1 30 13.2 33 8.1 38 5 43.8 5A11.1 11.1 0 0 1 55 16.2c0 8.4-7.4 15.1-18.2 25.2L33 45l-3-2.8Z"></path>
+                        <path d="m77 45-3.8-3.6C62.4 31.3 55 24.6 55 16.2A11.1 11.1 0 0 1 66.2 5C72 5 77 8.1 80 13.2 83 8.1 88 5 93.8 5A11.1 11.1 0 0 1 105 16.2c0 8.4-7.4 15.1-18.2 25.2L83 45l-3-2.8Z"></path>
+                    </svg>
+                    <p>Давайте создавать моменты счастья вместе!</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="{% static 'catalog/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

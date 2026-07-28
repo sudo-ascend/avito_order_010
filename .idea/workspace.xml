@@ -5,31 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6596ab10-e82c-44dc-91eb-a2b537df4e98" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/wb_parcer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wb_parcer.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/data/products.json" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/data/products.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/custom/hero-section-photo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/custom/hero-watercolor-reference.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/custom/step-design.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/custom/step-gift.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/custom/step-happiness.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/custom/step-idea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/custom/watercolor-form-bg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/assets/images/logo-circle.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/static/catalog/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/static/catalog/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/catalog/default_content.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/default_content.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/catalog/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/catalog/migrations/0005_homepagesettings_about_image_1_alt_and_more.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/migrations/0005_homepagesettings_about_image_1_alt_and_more.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/catalog/migrations/0006_sitesettings_max_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/migrations/0006_sitesettings_max_url.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/catalog/templates/catalog/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/templates/catalog/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/wsgi.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wb_seller_250129339_full/products.json" beforeDir="false" afterPath="$PROJECT_DIR$/wb_seller_250129339_full/products.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mailru_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/mailru_home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,17 +45,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/grach/PycharmProjects/avito_order_010"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/grach/PycharmProjects/avito_order_010&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="wb_parcer" />

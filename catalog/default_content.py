@@ -82,9 +82,9 @@ def update_if_blank(instance, **values) -> bool:
 def build_home_gallery_defaults() -> dict[str, str]:
     featured_services = list(Service.objects.filter(is_active=True).order_by("order", "pk")[:3])
     fallback_images = [
-        ("catalog/assets/images/custom/hero-photo-2026-07-27.webp", "Персональный подарок ручной работы"),
-        ("catalog/assets/images/custom/hero-watercolor-alt.webp", "Иллюстрация подарка Подари момент"),
-        ("catalog/assets/images/custom/hero-watercolor-custom.webp", "Творческая работа студии Подари момент"),
+        ("catalog/assets/images/custom/hero-photo-2026-07-27.jpg", "Персональный подарок ручной работы"),
+        ("catalog/assets/images/custom/hero-watercolor-alt.png", "Иллюстрация подарка Подари момент"),
+        ("catalog/assets/images/custom/hero-watercolor-custom.png", "Творческая работа студии Подари момент"),
     ]
 
     defaults: dict[str, str] = {}
@@ -149,7 +149,7 @@ def ensure_default_content() -> None:
         hero_primary_link="#contact",
         hero_secondary_text="Смотреть работы",
         hero_secondary_link="#works",
-        hero_image_path="catalog/assets/images/custom/hero-watercolor-alt.webp",
+        hero_image_path="catalog/assets/images/custom/hero-watercolor-alt.png",
         hero_image_alt="Авторский подарочный альбом Подари момент",
         hero_advantages_text="\n".join(DEFAULT_HERO_ADVANTAGES),
         about_title="Создаем подарки, в которых живут важные моменты",

@@ -1096,7 +1096,6 @@ main,
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.95);
     color: var(--text);
-    z-index: 2;
     box-shadow: 0 12px 24px rgba(223, 204, 197, 0.14);
     transition: transform 0.22s ease, color 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
@@ -1665,10 +1664,6 @@ textarea:focus-visible {
         padding: 1rem 0;
     }
 
-    .contact-intro__icon {
-        display: none;
-    }
-
     #siteMenu {
         align-items: stretch;
         width: 100%;
@@ -1795,20 +1790,22 @@ textarea:focus-visible {
 
     #siteMenu .mobile-menu-heading {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.9rem;
+        flex-direction: column;
+        gap: 0.12rem;
         padding: 0 0.7rem;
         margin: 0 0 0.72rem;
     }
 
     #siteMenu .mobile-menu-heading strong {
-        flex: 1 1 auto;
-        min-width: 0;
         color: var(--brand-dark);
         font-family: Georgia, "Palatino Linotype", serif;
         font-size: 1.08rem;
         line-height: 1.15;
+    }
+
+    #siteMenu .mobile-menu-heading span {
+        color: var(--muted);
+        font-size: 0.76rem;
     }
 
     #siteMenu .nav-links {
@@ -1867,9 +1864,9 @@ textarea:focus-visible {
     #siteMenu.navbar-collapse.show .nav-item:nth-child(6) { animation-delay: 0.19s; }
 
     #siteMenu .nav-side {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
         gap: 0.7rem;
         padding: 0.82rem 0.08rem 0 0.08rem;
         border-top: 1px solid rgba(232, 199, 209, 0.78);
@@ -1878,45 +1875,6 @@ textarea:focus-visible {
     #siteMenu .order-button {
         width: 100%;
         text-align: center;
-    }
-
-    #siteMenu .social-links-header {
-        display: none;
-    }
-
-    #siteMenu [data-menu-dismiss] {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        flex: 0 0 auto;
-        width: 38px;
-        height: 38px;
-        padding: 0;
-        border: 1px solid rgba(232, 194, 210, 0.92);
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.88);
-        color: var(--brand-dark);
-        box-shadow: 0 8px 18px rgba(142, 83, 111, 0.12);
-        transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    #siteMenu [data-menu-dismiss] svg {
-        width: 18px;
-        height: 18px;
-        display: block;
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 2.2;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-    }
-
-    #siteMenu [data-menu-dismiss]:hover,
-    #siteMenu [data-menu-dismiss]:focus-visible {
-        transform: translateY(-2px);
-        background: linear-gradient(135deg, #fff7fb 0%, #ffe9f2 100%);
-        color: var(--brand);
-        box-shadow: 0 14px 26px rgba(203, 79, 131, 0.2);
     }
 
     #siteMenu .social-links-header a {
@@ -1999,7 +1957,11 @@ textarea:focus-visible {
     }
 
     .gift-slider-shell {
-        padding: 0 2.35rem;
+        padding: 0;
+    }
+
+    .slider-arrow {
+        display: none;
     }
 
     .gift-slider-viewport {
@@ -2310,10 +2272,6 @@ textarea:focus-visible {
         padding: 0.1rem 0.15rem 0.6rem;
     }
 
-    .gift-slider-shell {
-        padding: 0 2rem;
-    }
-
     .gift-slider-viewport {
         overflow-x: auto;
         padding: 0.1rem 0.1rem 0;
@@ -2406,14 +2364,6 @@ textarea:focus-visible {
     .container {
         padding-right: 16px;
         padding-left: 16px;
-    }
-
-    .hero-panel {
-        margin-top: 60px;
-    }
-
-    .footer-promo {
-        display: none;
     }
 
     .brand-mark img {

@@ -48,7 +48,6 @@ setupGiftGalleries();
     const menu = document.querySelector('#siteMenu');
     const menuToggle = document.querySelector('.menu-toggle');
     const menuBackdrop = document.querySelector('[data-menu-backdrop]');
-    const menuDismissButton = document.querySelector('[data-menu-dismiss]');
 
     if (!menu || !menuToggle || !menuBackdrop) {
         return;
@@ -65,12 +64,6 @@ setupGiftGalleries();
     const closeMenu = () => setMenuState(false);
 
     menuToggle.addEventListener('click', () => setMenuState(!menu.classList.contains('show')));
-    if (menuDismissButton) {
-        menuDismissButton.addEventListener('click', () => {
-            closeMenu();
-            menuToggle.focus();
-        });
-    }
     menuBackdrop.addEventListener('click', closeMenu);
     menu.querySelectorAll('a[href^="#"]').forEach((link) => {
         link.addEventListener('click', closeMenu);

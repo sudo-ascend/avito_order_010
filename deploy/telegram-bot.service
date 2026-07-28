@@ -1,0 +1,19 @@
+[Unit]
+Description=Telegram bot for avito_order_010
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/path/to/avito_order_010
+EnvironmentFile=/etc/avito_order_010/telegram-bot.env
+ExecStart=/path/to/avito_order_010/.venv/bin/python manage.py run_telegram_bot
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

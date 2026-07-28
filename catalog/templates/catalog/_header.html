@@ -17,7 +17,11 @@
             <div class="collapse navbar-collapse" id="siteMenu">
                 <div class="mobile-menu-heading">
                     <strong>{{ site_settings.site_name|default:"Подари момент" }}</strong>
-                    <span>Навигация по сайту</span>
+                    <button type="button" data-menu-dismiss aria-label="Закрыть меню">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M14.8 5.8 8.6 12l6.2 6.2"></path>
+                        </svg>
+                    </button>
                 </div>
                 <ul class="navbar-nav nav-links mx-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:index' %}#top">Главная</a></li>

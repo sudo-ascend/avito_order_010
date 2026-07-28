@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6596ab10-e82c-44dc-91eb-a2b537df4e98" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wb_parcer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wb_parcer.iml" afterDir="false" />
+    <list default="true" id="6596ab10-e82c-44dc-91eb-a2b537df4e98" name="Changes" comment="02 commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/default_content.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/default_content.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/migrations/0005_homepagesettings_about_image_1_alt_and_more.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/migrations/0005_homepagesettings_about_image_1_alt_and_more.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/migrations/0006_sitesettings_max_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/migrations/0006_sitesettings_max_url.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/catalog/templates/catalog/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/catalog/templates/catalog/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mailru_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/mailru_home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +85,19 @@
       <option name="presentableId" value="Default" />
       <updated>1784736508221</updated>
     </task>
+    <task id="LOCAL-00001" summary="02 commit">
+      <option name="closed" value="true" />
+      <created>1785245461924</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1785245461924</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="02 commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="02 commit" />
   </component>
 </project>

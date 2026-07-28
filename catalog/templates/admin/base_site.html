@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+{% endblock %}
+
+{% block branding %}
+<div class="brand-shell">
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Администрирование') }}</a></h1>
+    <p class="admin-subtitle">Контент, каталоги и заявки в одном месте</p>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

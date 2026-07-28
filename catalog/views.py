@@ -1,186 +1,126 @@
-import json
-from collections import Counter
+from __future__ import annotations
+
 from datetime import datetime
-from functools import lru_cache
 from zoneinfo import ZoneInfo
 
-from django.conf import settings
-from django.shortcuts import render
+from django.contrib import messages
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
-
-DATA_FILE = settings.BASE_DIR / 'catalog' / 'data' / 'products.json'
-
-
-def _format_price(value):
-    try:
-        amount = int(round(float(value)))
-    except (TypeError, ValueError):
-        return 'По запросу'
-
-    return f"{amount:,}".replace(',', ' ') + ' ₽'
+from .api import save_application_from_request
+from .default_content import ensure_default_content
+from .forms import ApplicationForm
+from .models import Review, Service, SiteSettings, Step, WorkExample
+from .utils import notify_application
 
 
 def _shorten(text, limit=140):
-    cleaned = ' '.join((text or '').split())
+    cleaned = " ".join((text or "").split())
     if len(cleaned) <= limit:
         return cleaned
-
-    truncated = cleaned[: limit - 1].rsplit(' ', 1)[0]
-    return f'{truncated}…'
-
-
-def _static_image_path(local_path):
-    normalized = (local_path or '').replace('\\', '/')
-    if normalized.startswith('images/'):
-        normalized = normalized[len('images/'):]
-    return f'catalog/assets/images/products/{normalized}'
+    truncated = cleaned[: limit - 1].rsplit(" ", 1)[0]
+    return f"{truncated}..."
 
 
-@lru_cache(maxsize=1)
-def _load_catalog_payload():
-    return json.loads(DATA_FILE.read_text(encoding='utf-8'))
-
-
-def _decorate_product(raw_product):
-    images = []
-    for image in raw_product.get('images', []):
-        local_path = image.get('local_path')
-        if not local_path:
-            continue
-        images.append(
-            {
-                'position': image.get('position', 0),
-                'static_path': _static_image_path(local_path),
-            }
-        )
-
-    title = (raw_product.get('title') or '').strip()
-    description = raw_product.get('description') or raw_product.get('contents') or title
-    available_quantity = raw_product.get('available_quantity') or 0
+def _build_home_context(form: ApplicationForm | None = None):
+    ensure_default_content()
+    site_settings = SiteSettings.objects.first()
+    home_settings = site_settings
+    products_qs = Service.objects.filter(is_active=True).order_by("category_parent", "category", "order", "pk")
+    products = [
+        {
+            "nm_id": product.nm_id,
+            "title": product.title,
+            "category": product.category,
+            "category_parent": product.category_parent,
+            "description": _shorten(product.description),
+            "supplier_name": product.supplier_name,
+            "main_image": product.main_image,
+            "images": [product.main_image, *product.extra_image_paths],
+        }
+        for product in products_qs
+    ]
+    gallery_images = [
+        {"src": item.image_path, "alt": item.alt or item.title}
+        for item in WorkExample.objects.filter(show_on_home=True).order_by("order", "pk")
+    ]
+    if not gallery_images:
+        gallery_images = [{"src": product["main_image"], "alt": product["title"]} for product in products[:8]]
+    about_images = []
+    about_image_fallback_alt = "Примеры подарков"
+    if home_settings and home_settings.about_title:
+        about_image_fallback_alt = home_settings.about_title
+    elif site_settings and site_settings.site_name:
+        about_image_fallback_alt = site_settings.site_name
+    if home_settings:
+        for index in range(1, 4):
+            image_path = getattr(home_settings, f"about_image_{index}_path", "")
+            image_alt = getattr(home_settings, f"about_image_{index}_alt", "")
+            if image_path:
+                about_images.append({"src": image_path, "alt": image_alt or about_image_fallback_alt})
+    if not about_images:
+        about_images = [{"src": product["main_image"], "alt": product["title"]} for product in products[:3]]
 
     return {
-        'nm_id': raw_product.get('nm_id'),
-        'title': title,
-        'category': (raw_product.get('category') or 'Каталог').strip(),
-        'category_parent': (raw_product.get('category_parent') or '').strip(),
-        'description': _shorten(description),
-        'price_current': raw_product.get('price_current'),
-        'price_original': raw_product.get('price_original'),
-        'price_current_display': _format_price(raw_product.get('price_current')),
-        'price_original_display': _format_price(raw_product.get('price_original')),
-        'discount_percent': raw_product.get('discount_percent') or 0,
-        'available_quantity': available_quantity,
-        'stock_display': f'В наличии: {available_quantity}' if available_quantity else 'Количество уточняется',
-        'photo_count': raw_product.get('photo_count') or len(images),
-        'reviews_count': raw_product.get('reviews_count') or 0,
-        'rating': raw_product.get('review_rating') or raw_product.get('rating') or 0,
-        'supplier_name': (raw_product.get('supplier_name') or '').strip(),
-        'card_url': raw_product.get('card_url'),
-        'images': images,
-        'main_image': images[0]['static_path'] if images else 'catalog/assets/images/logo-circle.webp',
+        "site_settings": site_settings,
+        "home_settings": home_settings,
+        "brand_name": site_settings.site_name if site_settings else "Подари момент",
+        "products": products,
+        "gallery_images": gallery_images,
+        "about_images": about_images,
+        "reviews": Review.objects.filter(is_active=True).order_by("order", "pk"),
+        "steps": Step.objects.filter(is_active=True).order_by("order", "pk"),
+        "application_form": form or ApplicationForm(),
+        "current_year": datetime.now(ZoneInfo("Europe/Moscow")).year,
     }
-
-
-def _build_featured_products(products, limit=6):
-    featured = []
-    used_categories = set()
-
-    for product in products:
-        if product['category'] in used_categories:
-            continue
-        featured.append(product)
-        used_categories.add(product['category'])
-        if len(featured) == limit:
-            return featured
-
-    for product in products:
-        if product in featured:
-            continue
-        featured.append(product)
-        if len(featured) == limit:
-            break
-
-    return featured
 
 
 def index(request):
-    payload = _load_catalog_payload()
-    products = [_decorate_product(product) for product in payload.get('products', [])]
-    featured_products = _build_featured_products(products)
-    hero_product = featured_products[0] if featured_products else None
-    gift_cards = featured_products[:6]
+    context = _build_home_context()
+    if request.method == "POST":
+        form = ApplicationForm(request.POST)
+        if form.is_valid():
+            application = save_application_from_request(form, request)
+            notify_application(application, context["site_settings"])
+            success_message = (
+                context["home_settings"].contact_success_message
+                if context["home_settings"]
+                else "Спасибо! Мы получили заявку и скоро свяжемся с вами."
+            )
+            messages.success(request, success_message)
+            return redirect(f"{reverse('catalog:index')}#contact")
 
-    category_counter = Counter(product['category'] for product in products)
-    category_examples = {}
-    for product in products:
-        category_examples.setdefault(product['category'], product)
+        context = _build_home_context(form=form)
+        return render(request, "catalog/index.html", context)
 
-    categories = [
-        {
-            'name': category_name,
-            'count': count,
-            'image': category_examples[category_name]['main_image'],
-            'sample': category_examples[category_name]['title'],
-        }
-        for category_name, count in category_counter.most_common()
+    return render(request, "catalog/index.html", context)
+
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}",
     ]
+    return HttpResponse("\n".join(lines), content_type="text/plain; charset=utf-8")
 
-    gallery_images = []
-    for product in products:
-        gallery_images.append(
-            {
-                'src': product['main_image'],
-                'alt': product['title'],
-                'category': product['category'],
-            }
-        )
-        if len(gallery_images) == 8:
-            break
 
-    raw_timestamp = payload.get('fetched_at_utc')
-    if not raw_timestamp and payload.get('products'):
-        raw_timestamp = payload['products'][0].get('fetched_at_utc')
+def csrf_failure(request, reason=""):
+    return render(request, "error_pages/403_csrf.html", {"reason": reason}, status=403)
 
-    fetched_at_display = ''
-    if raw_timestamp:
-        fetched_at_display = (
-            datetime.fromisoformat(raw_timestamp)
-            .astimezone(ZoneInfo('Europe/Moscow'))
-            .strftime('%d.%m.%Y')
-        )
 
-    brand_name = next(
-        (
-            product['supplier_name']
-            for product in products
-            if product.get('supplier_name')
-        ),
-        'Подари момент',
-    )
+def bad_request(request, exception):
+    return render(request, "error_pages/400.html", status=400)
 
-    context = {
-        'brand_name': brand_name,
-        'products': products,
-        'hero_product': hero_product,
-        'gift_cards': gift_cards,
-        'featured_products': featured_products,
-        'categories': categories,
-        'gallery_images': gallery_images,
-        'footer_categories': categories[:6],
-        'seller_id': payload.get('seller_id'),
-        'seller_url': payload.get('source_url'),
-        'fetched_at_display': fetched_at_display,
-        'stats': [
-            {'value': payload.get('products_count', len(products)), 'label': 'товаров в выгрузке'},
-            {'value': len(categories), 'label': 'категорий'},
-            {'value': sum(product['photo_count'] for product in products), 'label': 'локальных фото'},
-            {'value': max((product['discount_percent'] for product in products), default=0), 'label': 'макс. скидка, %'},
-        ],
-        'next_stage_items': [
-            'Подключить форму заявки и обработку отправки без временных заглушек.',
-            'Развернуть полноценный каталог и детальные страницы товаров.',
-            'Добавить контентные блоки из следующего этапа ТЗ после согласования.',
-        ],
-        'current_year': 2026,
-    }
-    return render(request, 'catalog/index.html', context)
+
+def permission_denied(request, exception):
+    return render(request, "error_pages/403.html", status=403)
+
+
+def page_not_found(request, exception):
+    return render(request, "error_pages/404.html", status=404)
+
+
+def server_error(request):
+    return render(request, "error_pages/500.html", status=500)

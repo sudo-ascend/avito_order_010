@@ -1,0 +1,68 @@
+{% load catalog_extras %}
+{% if messages %}
+    <div class="notice-stack">
+        {% for message in messages %}
+            <div class="notice-banner{% if message.tags %} notice-banner--{{ message.tags }}{% endif %}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if application_form.non_field_errors %}
+    <div class="notice-stack">
+        {% for error in application_form.non_field_errors %}
+            <div class="notice-banner notice-banner--error">{{ error }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+<form
+    class="contact-form"
+    method="post"
+    action="{{ form_action|default:request.path }}"
+    data-application-form
+    data-application-endpoint="{% url 'catalog:application_create_api' %}"
+    novalidate
+>
+    {% csrf_token %}
+    {{ application_form.website }}
+    <div class="notice-stack" data-form-status hidden aria-live="polite"></div>
+    <div class="contact-form__grid">
+        <label class="field{% if application_form.name.errors %} field-error{% endif %}">
+            <span class="visually-hidden">Ваше имя</span>
+            <input type="text" name="name" placeholder="Ваше имя" maxlength="80" value="{{ application_form.name.value|default_if_none:'' }}">
+            {% for error in application_form.name.errors %}<span class="field-help">{{ error }}</span>{% endfor %}
+        </label>
+        <label class="field{% if application_form.phone.errors %} field-error{% endif %}">
+            <span class="visually-hidden">Телефон</span>
+            <input type="tel" name="phone" placeholder="Телефон" value="{{ application_form.phone.value|default_if_none:'' }}">
+            {% for error in application_form.phone.errors %}<span class="field-help">{{ error }}</span>{% endfor %}
+        </label>
+        <label class="field{% if application_form.email.errors %} field-error{% endif %}">
+            <span class="visually-hidden">Email</span>
+            <input type="email" name="email" placeholder="Email" value="{{ application_form.email.value|default_if_none:'' }}">
+            {% for error in application_form.email.errors %}<span class="field-help">{{ error }}</span>{% endfor %}
+        </label>
+        <label class="field{% if application_form.service.errors %} field-error{% endif %}">
+            <span class="visually-hidden">Что хотите заказать?</span>
+            {% with selected_service=application_form.service.value|stringformat:"s" %}
+                <select name="service">
+                    <option value="">Что хотите заказать?</option>
+                    {% for service in application_form.fields.service.queryset %}
+                        <option value="{{ service.pk }}"{% if selected_service == service.pk|stringformat:'s' %} selected{% endif %}>{{ service.title }}</option>
+                    {% endfor %}
+                </select>
+            {% endwith %}
+            {% for error in application_form.service.errors %}<span class="field-help">{{ error }}</span>{% endfor %}
+        </label>
+        <label class="field field-wide{% if application_form.comment.errors %} field-error{% endif %}">
+            <span class="visually-hidden">Расскажите вашу идею</span>
+            <textarea name="comment" rows="3" placeholder="Расскажите вашу идею">{{ application_form.comment.value|default_if_none:'' }}</textarea>
+            {% for error in application_form.comment.errors %}<span class="field-help">{{ error }}</span>{% endfor %}
+        </label>
+    </div>
+    <label class="form-consent{% if application_form.consent.errors %} form-consent--error{% endif %}">
+        <input type="checkbox" name="consent" value="on"{% if application_form.consent.value %} checked{% endif %}>
+        <span>Согласен на обработку персональных данных</span>
+    </label>
+    {% for error in application_form.consent.errors %}<span class="field-help field-help--block">{{ error }}</span>{% endfor %}
+    <button class="btn submit-button" type="submit">Отправить заявку</button>
+    <p class="form-note">Мы используем данные только для связи по вашей заявке.</p>
+</form>

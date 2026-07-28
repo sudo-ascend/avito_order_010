@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'catalog/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div class="brand-shell">
+    <div class="brand-title">
+        <img src="{% static 'catalog/assets/images/favicon.ico' %}" alt="" class="admin-brand-icon" width="24" height="24">
+        <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Администрирование') }}</a></h1>
+    </div>
+    <p class="admin-subtitle">Контент, каталоги и заявки в одном месте</p>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

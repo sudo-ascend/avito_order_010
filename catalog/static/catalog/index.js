@@ -747,3 +747,49 @@ setupGiftGalleries();
         });
     });
 })();
+
+(() => {
+    const galleries = document.querySelectorAll('[data-product-detail-gallery]');
+
+    if (!galleries.length) {
+        return;
+    }
+
+    galleries.forEach((gallery) => {
+        const track = gallery.querySelector('[data-detail-gallery-track]');
+        const previousButton = gallery.querySelector('[data-detail-gallery-prev]');
+        const nextButton = gallery.querySelector('[data-detail-gallery-next]');
+        const thumbs = [...gallery.querySelectorAll('[data-detail-gallery-thumb]')];
+        const slideCount = Number.parseInt(gallery.dataset.galleryLength || '0', 10);
+
+        if (!track || slideCount <= 0) {
+            return;
+        }
+
+        const update = (nextIndex) => {
+            const normalizedIndex = ((nextIndex % slideCount) + slideCount) % slideCount;
+            gallery.dataset.galleryIndex = String(normalizedIndex);
+            track.style.transform = `translateX(-${normalizedIndex * 100}%)`;
+            thumbs.forEach((thumb, index) => {
+                thumb.classList.toggle('is-active', index === normalizedIndex);
+            });
+        };
+
+        thumbs.forEach((thumb) => {
+            thumb.addEventListener('click', () => {
+                update(Number.parseInt(thumb.dataset.index || '0', 10));
+                thumb.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+            });
+        });
+
+        if (previousButton) {
+            previousButton.addEventListener('click', () => update(Number.parseInt(gallery.dataset.galleryIndex || '0', 10) - 1));
+        }
+
+        if (nextButton) {
+            nextButton.addEventListener('click', () => update(Number.parseInt(gallery.dataset.galleryIndex || '0', 10) + 1));
+        }
+
+        update(0);
+    });
+})();

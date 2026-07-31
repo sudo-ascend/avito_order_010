@@ -44,25 +44,25 @@
     <section class="about-section" id="about">
         <div class="container">
             <div class="about-grid">
-                <div class="about-media" aria-label="Примеры подарков {{ brand_name }}">
-                    {% for image in about_images %}
-                        <figure class="about-media__card about-media__card--{{ forloop.counter }}">
-                            <img src="{{ image.src|asset_url }}" alt="{{ image.alt }}" loading="lazy">
-                        </figure>
-                    {% endfor %}
-                </div>
                 <div class="about-copy">
                     <h2>{{ home_settings.about_title|default:"Создаём подарки, в которых живут важные моменты" }}</h2>
-                    <p class="about-copy__lead">{{ home_settings.about_lead }}</p>
-                    <p>{{ home_settings.about_text }}</p>
-                    {% if home_settings.about_list_items %}
-                        <ul class="about-list">
-                            {% for item in home_settings.about_list_items %}
-                                <li>{{ item }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
                 </div>
+                {% if about_images %}
+                    <div class="about-media" aria-label="Примеры подарков {{ brand_name }}">
+                        {% for image in about_images|slice:":3" %}
+                            <figure class="about-media__card about-media__card--{{ forloop.counter }}">
+                                <img src="{{ image.src|asset_url }}" alt="{{ image.alt }}" loading="lazy">
+                            </figure>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <ul class="about-products" aria-label="Список товаров {{ brand_name }}">
+                    {% for product in about_products %}
+                        <li>
+                            <a class="about-product" href="{{ product.detail_url }}">{{ product.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </section>
@@ -80,29 +80,30 @@
                     <div class="gift-grid">
                         {% for product in products %}
                             <article class="gift-card">
-                                <div class="gift-card__link">
-                                    <div class="gift-card__image" data-gift-gallery data-gallery-length="{{ product.images|length }}">
-                                        <div class="gift-card__image-track" data-gift-gallery-track>
-                                            {% for image in product.images %}
-                                                <div class="gift-card__image-slide">
-                                                    <img src="{{ image|asset_url }}" alt="{{ product.title|default:product.category }}" loading="lazy">
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        {% if product.images|length > 1 %}
-                                            <button class="gift-card__image-arrow gift-card__image-arrow--prev" type="button" data-gift-gallery-prev aria-label="Предыдущее изображение">
-                                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6-6 6 6 6"></path></svg>
-                                            </button>
-                                            <button class="gift-card__image-arrow gift-card__image-arrow--next" type="button" data-gift-gallery-next aria-label="Следующее изображение">
-                                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6"></path></svg>
-                                            </button>
-                                        {% endif %}
+                                <a class="gift-card__link" href="{{ product.detail_url }}" aria-label="{{ product.title|default:product.category }}">
+                                    <span class="gift-card__link-overlay" aria-hidden="true"></span>
+                                </a>
+                                <div class="gift-card__image" data-gift-gallery data-gallery-length="{{ product.images|length }}">
+                                    <div class="gift-card__image-track" data-gift-gallery-track>
+                                        {% for image in product.images %}
+                                            <div class="gift-card__image-slide">
+                                                <img src="{{ image|asset_url }}" alt="{{ product.title|default:product.category }}" loading="lazy">
+                                            </div>
+                                        {% endfor %}
                                     </div>
-                                    <div class="gift-card__body">
-                                        {% if product.category_parent or product.category %}<span class="gift-card__meta">{{ product.category_parent|default:product.category }}</span>{% endif %}
-                                        {% if product.title %}<h3>{{ product.title }}</h3>{% endif %}
-                                        {% if product.description %}<p class="gift-card__description">{{ product.description }}</p>{% endif %}
-                                    </div>
+                                    {% if product.images|length > 1 %}
+                                        <button class="gift-card__image-arrow gift-card__image-arrow--prev" type="button" data-gift-gallery-prev aria-label="Предыдущее изображение">
+                                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6-6 6 6 6"></path></svg>
+                                        </button>
+                                        <button class="gift-card__image-arrow gift-card__image-arrow--next" type="button" data-gift-gallery-next aria-label="Следующее изображение">
+                                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6"></path></svg>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                                <div class="gift-card__body">
+                                    {% if product.category_parent or product.category %}<span class="gift-card__meta">{{ product.category_parent|default:product.category }}</span>{% endif %}
+                                    {% if product.title %}<h3>{{ product.title }}</h3>{% endif %}
+                                    {% if product.description %}<p class="gift-card__description">{{ product.description }}</p>{% endif %}
                                 </div>
                             </article>
                         {% endfor %}

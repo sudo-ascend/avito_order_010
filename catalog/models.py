@@ -170,6 +170,14 @@ class Service(OrderedModel):
 
 class WorkExample(OrderedModel):
     title = models.CharField("Название", max_length=255, blank=True)
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.SET_NULL,
+        related_name="work_examples",
+        verbose_name="Товар для перехода",
+        blank=True,
+        null=True,
+    )
     image_path = models.CharField("Путь к изображению", max_length=255)
     alt = models.CharField("Alt изображения", max_length=255, blank=True)
     description = models.TextField("Описание", blank=True)

@@ -128,8 +128,37 @@ class HomePageImageTests(CatalogBaseTestCase):
         response = self.client.get(reverse("catalog:index"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, max_url, count=4)
-        self.assertContains(response, "Max")
+        self.assertContains(response, max_url, count=2)
+        self.assertContains(response, "MAX")
+
+    def test_home_page_renders_links_to_product_detail_pages(self):
+        WorkExample.objects.create(
+            title="Work example",
+            image_path="catalog/assets/images/custom/about-1.webp",
+            show_on_home=True,
+        )
+
+        response = self.client.get(reverse("catalog:index"))
+        detail_url = reverse("catalog:product_detail", args=[self.service.pk])
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, detail_url, count=3)
+
+
+class ProductDetailPageTests(CatalogBaseTestCase):
+    def test_product_detail_page_renders_gallery_and_prefilled_form(self):
+        self.service.extra_image_paths = [
+            "catalog/assets/images/custom/about-1.webp",
+            "catalog/assets/images/custom/about-2.webp",
+        ]
+        self.service.save(update_fields=["extra_image_paths"])
+
+        response = self.client.get(reverse("catalog:product_detail", args=[self.service.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["application_form"].initial["service"], self.service.pk)
+        self.assertContains(response, 'data-product-detail-gallery')
+        self.assertContains(response, self.service.title)
 
 
 class AdminImageFieldTests(TestCase):

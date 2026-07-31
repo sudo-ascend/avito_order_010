@@ -2360,6 +2360,10 @@ textarea:focus-visible {
         border-radius: 17px;
     }
 
+    .works-grid .work-card:nth-child(n + 5) {
+        display: none;
+    }
+
     .hero-media,
     .hero-photo {
         min-height: 230px;
@@ -2375,6 +2379,11 @@ textarea:focus-visible {
 
     .hero-photo img {
         object-position: 65% center;
+    }
+
+    .contact-intro__icon,
+    .footer-promo {
+        display: none;
     }
 }
 

@@ -12,9 +12,10 @@ from .api import save_application_from_request
 from .default_content import ensure_default_content
 from .forms import ApplicationForm
 from .models import Review, Service, SiteSettings, Step, WorkExample
+from .seo import absolute_url, build_home_seo, build_product_seo
 from .utils import notify_application
 
-DEFAULT_SUCCESS_MESSAGE = "Спасибо! Мы получили заявку и скоро свяжемся с вами."
+DEFAULT_SUCCESS_MESSAGE = "Создаем моменты счастья"
 
 
 def _normalize_text(text: str) -> str:
@@ -51,7 +52,7 @@ def _serialize_service(service: Service, *, shorten_description: bool = True) ->
     }
 
 
-def _base_context(form: ApplicationForm | None = None) -> dict[str, object]:
+def _base_context(request, form: ApplicationForm | None = None) -> dict[str, object]:
     ensure_default_content()
     site_settings = SiteSettings.objects.first()
     home_settings = site_settings
@@ -61,6 +62,7 @@ def _base_context(form: ApplicationForm | None = None) -> dict[str, object]:
         "brand_name": site_settings.site_name if site_settings else "Подари момент",
         "application_form": form or ApplicationForm(),
         "current_year": datetime.now(ZoneInfo("Europe/Moscow")).year,
+        "site_base_url": absolute_url(request, "/"),
     }
 
 
@@ -90,8 +92,8 @@ def _build_gallery_images(services: list[Service], products: list[dict[str, obje
     return gallery_images
 
 
-def _build_home_context(form: ApplicationForm | None = None) -> dict[str, object]:
-    context = _base_context(form=form)
+def _build_home_context(request, form: ApplicationForm | None = None) -> dict[str, object]:
+    context = _base_context(request, form=form)
     services_by_catalog = list(Service.objects.filter(is_active=True).order_by("category_parent", "category", "order", "pk"))
     services_by_order = list(Service.objects.filter(is_active=True).order_by("order", "pk"))
     products = [_serialize_service(service) for service in services_by_catalog]
@@ -123,13 +125,14 @@ def _build_home_context(form: ApplicationForm | None = None) -> dict[str, object
             "about_images": about_images,
             "reviews": Review.objects.filter(is_active=True).order_by("order", "pk"),
             "steps": Step.objects.filter(is_active=True).order_by("order", "pk"),
+            "seo": build_home_seo(request, context["site_settings"], services_by_order),
         }
     )
     return context
 
 
-def _build_product_detail_context(service: Service, form: ApplicationForm | None = None) -> dict[str, object]:
-    context = _base_context(form=form or ApplicationForm(initial={"service": service.pk}))
+def _build_product_detail_context(request, service: Service, form: ApplicationForm | None = None) -> dict[str, object]:
+    context = _base_context(request, form=form or ApplicationForm(initial={"service": service.pk}))
     related_products = [
         _serialize_service(item)
         for item in Service.objects.filter(is_active=True).exclude(pk=service.pk).order_by("order", "pk")[:4]
@@ -138,6 +141,7 @@ def _build_product_detail_context(service: Service, form: ApplicationForm | None
         {
             "product": _serialize_service(service, shorten_description=False),
             "related_products": related_products,
+            "seo": build_product_seo(request, context["site_settings"], service),
         }
     )
     return context
@@ -150,7 +154,7 @@ def _contact_success_message(home_settings: SiteSettings | None) -> str:
 
 
 def index(request):
-    context = _build_home_context()
+    context = _build_home_context(request)
     if request.method == "POST":
         form = ApplicationForm(request.POST)
         if form.is_valid():
@@ -159,7 +163,7 @@ def index(request):
             messages.success(request, _contact_success_message(context["home_settings"]))
             return redirect(f"{reverse('catalog:index')}#contact")
 
-        context = _build_home_context(form=form)
+        context = _build_home_context(request, form=form)
         return render(request, "catalog/index.html", context)
 
     return render(request, "catalog/index.html", context)
@@ -167,7 +171,7 @@ def index(request):
 
 def product_detail(request, pk: int):
     service = get_object_or_404(Service.objects.filter(is_active=True), pk=pk)
-    context = _build_product_detail_context(service)
+    context = _build_product_detail_context(request, service)
 
     if request.method == "POST":
         form = ApplicationForm(request.POST)
@@ -177,7 +181,7 @@ def product_detail(request, pk: int):
             messages.success(request, _contact_success_message(context["home_settings"]))
             return redirect(f"{reverse('catalog:product_detail', args=[service.pk])}#contact")
 
-        context = _build_product_detail_context(service, form=form)
+        context = _build_product_detail_context(request, service, form=form)
         return render(request, "catalog/product_detail.html", context)
 
     return render(request, "catalog/product_detail.html", context)
@@ -187,7 +191,9 @@ def robots_txt(request):
     lines = [
         "User-agent: *",
         "Allow: /",
-        f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}",
+        "Disallow: /admin/",
+        "Disallow: /api/",
+        f"Sitemap: {absolute_url(request, reverse('django.contrib.sitemaps.views.sitemap'))}",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain; charset=utf-8")
 

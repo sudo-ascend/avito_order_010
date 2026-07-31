@@ -24,6 +24,7 @@ ALLOWED_HOSTS = [
 ]
 
 SITE_NAME = os.getenv("SITE_NAME", "Подари момент")
+SITE_URL = os.getenv("SITE_URL", "").strip().rstrip("/")
 
 INSTALLED_APPS = [
     'django.contrib.admin',

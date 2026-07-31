@@ -35,6 +35,10 @@ class SiteSettings(models.Model):
     policy_text = models.TextField("Текст политики", blank=True)
     seo_title = models.CharField("SEO title главной", max_length=255, blank=True)
     seo_description = models.TextField("SEO description главной", blank=True)
+    share_title = models.CharField("Заголовок превью ссылки", max_length=255, blank=True)
+    share_description = models.TextField("Описание превью ссылки", blank=True)
+    share_image_path = models.CharField("Путь к изображению превью ссылки", max_length=255, blank=True)
+    share_image_alt = models.CharField("Alt изображения превью ссылки", max_length=255, blank=True)
     hero_title = models.CharField("Заголовок hero", max_length=255, default="Подари момент, который останется в памяти")
     hero_text = models.TextField("Текст hero", blank=True)
     hero_primary_text = models.CharField("Текст основной кнопки hero", max_length=120, default="Создать свой подарок")
@@ -67,7 +71,7 @@ class SiteSettings(models.Model):
     contact_success_message = models.CharField(
         "Сообщение об успешной отправке",
         max_length=255,
-        default="Спасибо! Мы получили заявку и скоро свяжемся с вами.",
+        default="Создаем моменты счастья",
     )
     footer_navigation_title = models.CharField("Заголовок навигации в футере", max_length=120, default="Навигация")
     footer_contacts_title = models.CharField("Заголовок контактов в футере", max_length=120, default="Контакты")
@@ -155,6 +159,7 @@ class Service(OrderedModel):
     image_path = models.CharField("Путь к изображению", max_length=255, blank=True)
     extra_image_paths = models.JSONField("Дополнительные изображения", blank=True, default=list)
     is_active = models.BooleanField("Товар активен", default=True)
+    updated_at = models.DateTimeField("Обновлено", auto_now=True)
 
     class Meta(OrderedModel.Meta):
         verbose_name = "Товар каталога"

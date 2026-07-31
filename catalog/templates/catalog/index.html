@@ -1,9 +1,6 @@
 {% extends "catalog/base.html" %}
 {% load static catalog_extras %}
 
-{% block title %}{{ home_settings.seo_title|default:brand_name }}{% endblock %}
-{% block meta_description %}{{ home_settings.seo_description|default:site_settings.footer_description }}{% endblock %}
-
 {% block content %}
     <section class="hero-section">
         <div class="container">

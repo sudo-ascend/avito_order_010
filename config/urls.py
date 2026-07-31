@@ -4,11 +4,12 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
-from catalog.sitemaps import HomeSitemap
+from catalog.sitemaps import HomeSitemap, ProductSitemap
 
 
 sitemaps = {
     "home": HomeSitemap,
+    "products": ProductSitemap,
 }
 
 urlpatterns = [

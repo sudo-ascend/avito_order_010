@@ -7,7 +7,7 @@ from .forms import ApplicationForm
 from .models import SiteSettings
 from .utils import notify_application
 
-DEFAULT_SUCCESS_MESSAGE = "Спасибо! Заявка отправлена, мы скоро свяжемся с вами."
+DEFAULT_SUCCESS_MESSAGE = "Создаем моменты счастья"
 DEFAULT_INVALID_MESSAGE = "Пожалуйста, проверьте форму."
 
 

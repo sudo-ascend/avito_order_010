@@ -738,7 +738,7 @@ setupGiftGalleries();
                 }
 
                 form.reset();
-                renderStatus(form, payload.message || 'Спасибо! Мы скоро свяжемся с вами.', 'success');
+                renderStatus(form, payload.message || 'Создаем моменты счастья', 'success');
             } catch (error) {
                 renderStatus(form, 'Не удалось отправить заявку. Попробуйте еще раз.', 'error');
             } finally {

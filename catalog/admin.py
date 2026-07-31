@@ -86,6 +86,7 @@ class AdminImageUploadFormMixin(forms.ModelForm):
 class SiteSettingsAdminForm(AdminImageUploadFormMixin):
     logo_upload = forms.FileField(label="Логотип", required=False, widget=IMAGE_UPLOAD_WIDGET)
     favicon_upload = forms.FileField(label="Favicon", required=False, widget=IMAGE_UPLOAD_WIDGET)
+    share_image_upload = forms.FileField(label="Изображение превью ссылки", required=False, widget=IMAGE_UPLOAD_WIDGET)
     hero_image_upload = forms.FileField(label="Hero-изображение", required=False, widget=IMAGE_UPLOAD_WIDGET)
     about_image_1_upload = forms.FileField(label="Первая картинка", required=False, widget=IMAGE_UPLOAD_WIDGET)
     about_image_2_upload = forms.FileField(label="Вторая картинка", required=False, widget=IMAGE_UPLOAD_WIDGET)
@@ -95,6 +96,7 @@ class SiteSettingsAdminForm(AdminImageUploadFormMixin):
     image_upload_map = {
         "logo_upload": {"target_field": "logo_path", "upload_to": "admin/site"},
         "favicon_upload": {"target_field": "favicon_path", "upload_to": "admin/site"},
+        "share_image_upload": {"target_field": "share_image_path", "upload_to": "admin/share"},
         "hero_image_upload": {"target_field": "hero_image_path", "upload_to": "admin/home"},
         "about_image_1_upload": {"target_field": "about_image_1_path", "upload_to": "admin/home"},
         "about_image_2_upload": {"target_field": "about_image_2_path", "upload_to": "admin/home"},
@@ -107,11 +109,14 @@ class SiteSettingsAdminForm(AdminImageUploadFormMixin):
         exclude = (
             "logo_path",
             "favicon_path",
+            "share_image_path",
             "hero_image_path",
             "about_image_1_path",
             "about_image_2_path",
             "about_image_3_path",
             "contact_image_path",
+            "seo_title",
+            "seo_description",
         )
 
 
@@ -214,6 +219,7 @@ class SiteSettingsAdmin(ImagePreviewAdminMixin, SingletonAdmin):
         "updated_at",
         "logo_preview",
         "favicon_preview",
+        "share_image_preview",
         "hero_image_preview",
         "about_image_1_preview",
         "about_image_2_preview",
@@ -222,7 +228,18 @@ class SiteSettingsAdmin(ImagePreviewAdminMixin, SingletonAdmin):
     )
     fieldsets = (
         ("Бренд", {"fields": ("site_name", "brand_tagline", "logo_upload", "logo_preview", "favicon_upload", "favicon_preview")}),
-        ("SEO", {"fields": ("seo_title", "seo_description")}),
+        (
+            "Превью ссылки",
+            {
+                "fields": (
+                    "share_title",
+                    "share_description",
+                    "share_image_upload",
+                    "share_image_preview",
+                    "share_image_alt",
+                )
+            },
+        ),
         (
             "Hero",
             {
@@ -307,6 +324,10 @@ class SiteSettingsAdmin(ImagePreviewAdminMixin, SingletonAdmin):
     @admin.display(description="Превью favicon")
     def favicon_preview(self, obj: SiteSettings):
         return self.render_image_preview(getattr(obj, "favicon_path", ""), "Favicon")
+
+    @admin.display(description="Превью ссылки")
+    def share_image_preview(self, obj: SiteSettings):
+        return self.render_image_preview(getattr(obj, "share_image_path", ""), obj.share_image_alt or obj.site_name)
 
     @admin.display(description="Превью hero")
     def hero_image_preview(self, obj: SiteSettings):

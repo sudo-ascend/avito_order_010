@@ -49,6 +49,8 @@ DEFAULT_CONTACT_IMAGE_PATH = "catalog/assets/images/custom/step-gift.webp"
 DEFAULT_CONTACT_IMAGE_ALT = "Подарок ручной работы от студии Подари момент"
 DEFAULT_TELEGRAM_USERNAME = "molnia_cleaning_applications_bot"
 DEFAULT_CONTACT_PHONE = "+7 (961) 490-58-39"
+DEFAULT_SHARE_TITLE = "Подари момент | Персональные подарки на заказ"
+DEFAULT_SHARE_DESCRIPTION = "Авторские подарки, фотокниги, наборы и сюрпризы на заказ. Индивидуальный дизайн, ручная работа и доставка по России."
 
 
 def load_payload() -> dict:
@@ -117,6 +119,10 @@ def ensure_default_content() -> None:
             "favicon_path": "catalog/assets/images/favicon.ico",
             "footer_description": "Создаем персональные подарки, которые сохраняют важные моменты и дарят радость.",
             "footer_promo": "Давайте создавать моменты счастья вместе!",
+            "share_title": DEFAULT_SHARE_TITLE,
+            "share_description": DEFAULT_SHARE_DESCRIPTION,
+            "share_image_path": "catalog/assets/images/custom/hero-watercolor-alt.png",
+            "share_image_alt": "Превью ссылки студии Подари момент",
         },
     )
     if update_if_blank(
@@ -132,6 +138,10 @@ def ensure_default_content() -> None:
         instagram_url="https://www.instagram.com/studio_podarymoment?utm_source=qr&igsh=MXM3NHFjdXRrOHd0cw==",
         logo_path="catalog/assets/images/logo-mark.webp",
         favicon_path="catalog/assets/images/favicon.ico",
+        share_title=DEFAULT_SHARE_TITLE,
+        share_description=DEFAULT_SHARE_DESCRIPTION,
+        share_image_path="catalog/assets/images/custom/hero-watercolor-alt.png",
+        share_image_alt="Превью ссылки студии Подари момент",
         address="Онлайн-мастерская «Подари момент». Работаем по Москве и отправляем подарки по всей России.",
         work_time="Ежедневно: прием заявок с 09:00 до 21:00 по Москве.",
         policy_text=DEFAULT_SITE_POLICY_TEXT,
@@ -141,8 +151,6 @@ def ensure_default_content() -> None:
 
     if update_if_blank(
         site_settings,
-        seo_title="Подари момент | Персональные подарки",
-        seo_description="Персональные подарки, альбомы и творческие наборы Подари момент.",
         hero_title="Подари момент, который останется в памяти",
         hero_text="Создаем персональные раскраски, альбомы и подарки по вашему заказу с любовью к деталям.",
         hero_primary_text="Создать свой подарок",
@@ -170,7 +178,7 @@ def ensure_default_content() -> None:
         process_title="Как мы работаем",
         contact_title="Создадим подарок специально для вас",
         contact_text="Оставьте заявку, и мы свяжемся с вами, чтобы обсудить все детали.",
-        contact_success_message="Спасибо! Мы получили заявку и скоро свяжемся с вами.",
+        contact_success_message="Создаем моменты счастья",
         footer_navigation_title="Навигация",
         footer_contacts_title="Контакты",
     ):

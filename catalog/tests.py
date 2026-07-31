@@ -10,6 +10,7 @@ from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 
 from .models import Application, Service, SiteSettings, Step, TelegramSubscriber, WorkExample
+from .seo import DEFAULT_HOME_DESCRIPTION, DEFAULT_HOME_TITLE
 from .utils import notify_application
 
 
@@ -19,7 +20,7 @@ class CatalogBaseTestCase(TestCase):
             site_name="Подари момент",
             email="hello@example.com",
             application_email="notify@example.com",
-            contact_success_message="Спасибо! Мы скоро свяжемся с вами.",
+            contact_success_message="Создаем моменты счастья",
         )
         self.service = Service.objects.create(
             title="Тестовый подарок",
@@ -128,7 +129,7 @@ class HomePageImageTests(CatalogBaseTestCase):
         response = self.client.get(reverse("catalog:index"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, max_url, count=2)
+        self.assertContains(response, max_url, count=3)
         self.assertContains(response, "MAX")
 
     def test_home_page_renders_links_to_product_detail_pages(self):
@@ -160,6 +161,54 @@ class ProductDetailPageTests(CatalogBaseTestCase):
         self.assertContains(response, 'data-product-detail-gallery')
         self.assertContains(response, self.service.title)
 
+    def test_product_detail_page_outputs_product_seo_meta(self):
+        self.service.description = "Авторский подарок для особого случая с индивидуальным оформлением."
+        self.service.category = "Подарки"
+        self.service.save(update_fields=["description", "category"])
+
+        response = self.client.get(reverse("catalog:product_detail", args=[self.service.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f"<link rel=\"canonical\" href=\"http://testserver/products/{self.service.pk}/\">", html=True)
+        self.assertContains(response, '<meta property="og:type" content="product">', html=True)
+        self.assertContains(response, self.service.title)
+        self.assertContains(response, "BreadcrumbList")
+        self.assertContains(response, '"@type":"Product"')
+
+
+class SeoSurfaceTests(CatalogBaseTestCase):
+    def test_home_page_outputs_hardcoded_seo_and_share_preview_tags(self):
+        SiteSettings.objects.update(
+            share_title="Подарки, которые хочется переслать друзьям",
+            share_description="Красивое превью ссылки для мессенджеров и соцсетей.",
+            share_image_path="catalog/assets/images/custom/about-1.webp",
+            share_image_alt="Превью ссылки",
+        )
+
+        response = self.client.get(reverse("catalog:index"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f"<title>{DEFAULT_HOME_TITLE}</title>", html=True)
+        self.assertContains(response, f'<meta name="description" content="{DEFAULT_HOME_DESCRIPTION}">', html=True)
+        self.assertContains(response, '<meta property="og:type" content="website">', html=True)
+        self.assertContains(response, 'content="Подарки, которые хочется переслать друзьям"')
+        self.assertContains(response, 'content="Красивое превью ссылки для мессенджеров и соцсетей."')
+        self.assertContains(response, '<link rel="canonical" href="http://testserver/">', html=True)
+        self.assertContains(response, '"@type":"CollectionPage"')
+        self.assertContains(response, '"@type":"ItemList"')
+
+    def test_robots_and_sitemap_expose_public_pages(self):
+        robots_response = self.client.get(reverse("catalog:robots_txt"))
+        sitemap_response = self.client.get("/sitemap.xml")
+
+        self.assertEqual(robots_response.status_code, 200)
+        self.assertContains(robots_response, "Disallow: /admin/")
+        self.assertContains(robots_response, "Disallow: /api/")
+        self.assertContains(robots_response, "Sitemap: http://testserver/sitemap.xml")
+        self.assertEqual(sitemap_response.status_code, 200)
+        self.assertContains(sitemap_response, reverse("catalog:index"))
+        self.assertContains(sitemap_response, reverse("catalog:product_detail", args=[self.service.pk]))
+
 
 class AdminImageFieldTests(TestCase):
     def test_image_path_fields_are_hidden_in_admin_forms(self):
@@ -171,6 +220,7 @@ class AdminImageFieldTests(TestCase):
                 {
                     "logo_upload",
                     "favicon_upload",
+                    "share_image_upload",
                     "hero_image_upload",
                     "about_image_1_upload",
                     "about_image_2_upload",
@@ -180,6 +230,7 @@ class AdminImageFieldTests(TestCase):
                 {
                     "logo_path",
                     "favicon_path",
+                    "share_image_path",
                     "hero_image_path",
                     "about_image_1_path",
                     "about_image_2_path",
@@ -199,6 +250,10 @@ class AdminImageFieldTests(TestCase):
 
         site_settings_form = admin.site._registry[SiteSettings].get_form(request)
         self.assertIn("max_url", site_settings_form.base_fields)
+        self.assertIn("share_title", site_settings_form.base_fields)
+        self.assertIn("share_description", site_settings_form.base_fields)
+        self.assertNotIn("seo_title", site_settings_form.base_fields)
+        self.assertNotIn("seo_description", site_settings_form.base_fields)
 
 
 @override_settings(

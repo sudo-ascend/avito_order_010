@@ -47,8 +47,9 @@ DEFAULT_SITE_POLICY_TEXT = """
 DEFAULT_METRIKA_CODE = "<!-- Яндекс.Метрика будет добавлена после получения реального идентификатора счетчика. -->"
 DEFAULT_CONTACT_IMAGE_PATH = "catalog/assets/images/custom/step-gift.webp"
 DEFAULT_CONTACT_IMAGE_ALT = "Подарок ручной работы от студии Подари момент"
-DEFAULT_TELEGRAM_USERNAME = "molnia_cleaning_applications_bot"
+DEFAULT_TELEGRAM_URL = "https://t.me/molnia_cleaning_applications_bot"
 DEFAULT_CONTACT_PHONE = "+7 (961) 490-58-39"
+DEFAULT_WHATSAPP_URL = "https://wa.me/79614905839"
 DEFAULT_SHARE_TITLE = "Подари момент | Персональные подарки на заказ"
 DEFAULT_SHARE_DESCRIPTION = "Авторские подарки, фотокниги, наборы и сюрпризы на заказ. Индивидуальный дизайн, ручная работа и доставка по России."
 
@@ -111,8 +112,8 @@ def ensure_default_content() -> None:
             "phone": DEFAULT_CONTACT_PHONE,
             "email": "podary_moment@mail.ru",
             "application_email": "podary_moment@mail.ru",
-            "telegram_username": DEFAULT_TELEGRAM_USERNAME,
-            "whatsapp_phone": DEFAULT_CONTACT_PHONE,
+            "telegram_url": DEFAULT_TELEGRAM_URL,
+            "whatsapp_url": DEFAULT_WHATSAPP_URL,
             "max_url": "https://max.ru/podary-moment",
             "instagram_url": "https://www.instagram.com/studio_podarymoment?utm_source=qr&igsh=MXM3NHFjdXRrOHd0cw==",
             "logo_path": "catalog/assets/images/logo-mark.webp",
@@ -132,8 +133,8 @@ def ensure_default_content() -> None:
         phone=DEFAULT_CONTACT_PHONE,
         email="podary_moment@mail.ru",
         application_email="podary_moment@mail.ru",
-        telegram_username=DEFAULT_TELEGRAM_USERNAME,
-        whatsapp_phone=DEFAULT_CONTACT_PHONE,
+        telegram_url=DEFAULT_TELEGRAM_URL,
+        whatsapp_url=DEFAULT_WHATSAPP_URL,
         max_url="https://max.ru/podary-moment",
         instagram_url="https://www.instagram.com/studio_podarymoment?utm_source=qr&igsh=MXM3NHFjdXRrOHd0cw==",
         logo_path="catalog/assets/images/logo-mark.webp",

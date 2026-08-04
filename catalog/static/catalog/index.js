@@ -36,6 +36,72 @@ const setupGiftGallery = (gallery) => {
             updateGiftGallery(gallery, currentIndex + (index === 0 ? -1 : 1));
         });
     });
+
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let swipeHandled = false;
+
+    const resetSwipeState = () => {
+        pointerStartX = 0;
+        pointerStartY = 0;
+    };
+
+    gallery.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) {
+            return;
+        }
+
+        pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
+        swipeHandled = false;
+    });
+
+    gallery.addEventListener('pointerup', (event) => {
+        if (pointerStartX === 0 && pointerStartY === 0) {
+            return;
+        }
+
+        const deltaX = event.clientX - pointerStartX;
+        const deltaY = event.clientY - pointerStartY;
+
+        resetSwipeState();
+
+        if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) {
+            return;
+        }
+
+        swipeHandled = true;
+
+        const currentIndex = Number.parseInt(gallery.dataset.galleryIndex || '0', 10);
+        updateGiftGallery(gallery, currentIndex + (deltaX < 0 ? 1 : -1));
+    });
+
+    gallery.addEventListener('pointercancel', resetSwipeState);
+
+    gallery.addEventListener('click', (event) => {
+        if (event.target.closest('[data-gift-gallery-prev], [data-gift-gallery-next]')) {
+            return;
+        }
+
+        if (swipeHandled) {
+            swipeHandled = false;
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+
+        const cardLink = gallery.closest('.gift-card')?.querySelector('.gift-card__link[href]');
+        if (!cardLink) {
+            return;
+        }
+
+        if (event.metaKey || event.ctrlKey) {
+            window.open(cardLink.href, '_blank', 'noopener');
+            return;
+        }
+
+        window.location.assign(cardLink.href);
+    });
 };
 
 const setupGiftGalleries = (root = document) => {
@@ -48,6 +114,7 @@ setupGiftGalleries();
     const menu = document.querySelector('#siteMenu');
     const menuToggle = document.querySelector('.menu-toggle');
     const menuBackdrop = document.querySelector('[data-menu-backdrop]');
+    const closeButton = menu?.querySelector('[data-menu-close]');
 
     if (!menu || !menuToggle || !menuBackdrop) {
         return;
@@ -64,6 +131,7 @@ setupGiftGalleries();
     const closeMenu = () => setMenuState(false);
 
     menuToggle.addEventListener('click', () => setMenuState(!menu.classList.contains('show')));
+    closeButton?.addEventListener('click', closeMenu);
     menuBackdrop.addEventListener('click', closeMenu);
     menu.querySelectorAll('a[href^="#"]').forEach((link) => {
         link.addEventListener('click', closeMenu);

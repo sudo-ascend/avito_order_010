@@ -104,6 +104,13 @@ class SiteSettingsAdminForm(AdminImageUploadFormMixin):
         "contact_image_upload": {"target_field": "contact_image_path", "upload_to": "admin/home"},
     }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["telegram_url"].help_text = "Укажите полную ссылку, например https://t.me/your_name"
+        self.fields["whatsapp_url"].help_text = "Укажите полную ссылку, например https://wa.me/79991234567"
+        self.fields["max_url"].help_text = "Укажите полную ссылку"
+        self.fields["instagram_url"].help_text = "Укажите полную ссылку"
+
     class Meta:
         model = SiteSettings
         exclude = (
@@ -297,8 +304,8 @@ class SiteSettingsAdmin(ImagePreviewAdminMixin, SingletonAdmin):
                     "phone",
                     "email",
                     "application_email",
-                    "telegram_username",
-                    "whatsapp_phone",
+                    "telegram_url",
+                    "whatsapp_url",
                     "max_url",
                     "instagram_url",
                     "address",

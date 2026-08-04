@@ -249,9 +249,13 @@ class AdminImageFieldTests(TestCase):
             self.assertTrue(hidden_fields.isdisjoint(form_class.base_fields.keys()))
 
         site_settings_form = admin.site._registry[SiteSettings].get_form(request)
+        self.assertIn("telegram_url", site_settings_form.base_fields)
+        self.assertIn("whatsapp_url", site_settings_form.base_fields)
         self.assertIn("max_url", site_settings_form.base_fields)
         self.assertIn("share_title", site_settings_form.base_fields)
         self.assertIn("share_description", site_settings_form.base_fields)
+        self.assertNotIn("telegram_username", site_settings_form.base_fields)
+        self.assertNotIn("whatsapp_phone", site_settings_form.base_fields)
         self.assertNotIn("seo_title", site_settings_form.base_fields)
         self.assertNotIn("seo_description", site_settings_form.base_fields)
 

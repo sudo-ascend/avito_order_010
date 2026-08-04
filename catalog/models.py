@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import re
-
 from django.db import models
 
 
@@ -20,8 +18,8 @@ class SiteSettings(models.Model):
     brand_tagline = models.CharField("Подзаголовок бренда", max_length=255, blank=True, default="Создаем моменты счастья")
     phone = models.CharField("Телефон", max_length=32, blank=True)
     email = models.EmailField("Email", blank=True)
-    telegram_username = models.CharField("Telegram username", max_length=128, blank=True)
-    whatsapp_phone = models.CharField("WhatsApp", max_length=32, blank=True)
+    telegram_url = models.URLField("Telegram URL", blank=True)
+    whatsapp_url = models.URLField("WhatsApp URL", blank=True)
     max_url = models.URLField("Max URL", blank=True)
     instagram_url = models.URLField("Instagram URL", blank=True)
     application_email = models.EmailField("Email для заявок", blank=True)
@@ -88,25 +86,6 @@ class SiteSettings(models.Model):
     def phone_href(self) -> str:
         digits = "".join(char for char in self.phone if char.isdigit())
         return f"tel:+{digits}" if digits else "tel:"
-
-    @property
-    def telegram_handle(self) -> str:
-        username = self.telegram_username.strip().lstrip("@")
-        return f"@{username}" if username else ""
-
-    @property
-    def telegram_url(self) -> str:
-        username = self.telegram_username.strip().lstrip("@")
-        return f"https://t.me/{username}" if username else ""
-
-    @property
-    def whatsapp_url(self) -> str:
-        digits = re.sub(r"\D+", "", self.whatsapp_phone or "")
-        if digits.startswith("8"):
-            digits = f"7{digits[1:]}"
-        elif len(digits) == 10:
-            digits = f"7{digits}"
-        return f"https://wa.me/{digits}" if digits else ""
 
     @property
     def about_list_items(self) -> list[str]:
